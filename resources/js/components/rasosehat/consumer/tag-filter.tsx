@@ -19,7 +19,7 @@ interface TagFilterProps {
 
 export default function TagFilter({ activeTag, onTagChange }: TagFilterProps) {
     return (
-        <div className="w-full py-6 flex items-center gap-3 overflow-x-auto no-scrollbar pb-8 animate-in fade-in slide-in-from-left-4 duration-700">
+        <div className="w-full py-6 flex items-center gap-3 overflow-x-auto scrollbar-hide pb-8 animate-in fade-in slide-in-from-left-4 duration-700">
             {filterTags.map((tag) => (
                 <button
                     key={tag.id}

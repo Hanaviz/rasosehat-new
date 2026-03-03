@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { ChevronRight, Flame, Zap, Star, Leaf, ShieldCheck, MapPin } from 'lucide-react';
 import ScrollReveal, { StaggerReveal } from '@/components/rasosehat/shared/scroll-reveal';
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 export default function CategoryGrid() {
     const categories = [
@@ -11,6 +12,8 @@ export default function CategoryGrid() {
         { name: 'Katering Diet', icon: <ShieldCheck className="size-6" />, color: 'bg-purple-50 text-purple-600', count: '10+ Paket' },
         { name: 'Salad Buah', icon: <MapPin className="size-6" />, color: 'bg-red-50 text-red-600', count: '20+ Varian' },
     ];
+
+    const mobileScroll = useScrollAnimation({ threshold: 0.1 });
 
     return (
         <section className="py-16 bg-white dark:bg-sidebar/30">
@@ -27,11 +30,42 @@ export default function CategoryGrid() {
                     </div>
                 </ScrollReveal>
 
+                {/* MOBILE: Horizontal scroll */}
+                <div
+                    ref={mobileScroll.ref}
+                    className="md:hidden flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-4 px-4 scrollbar-hide"
+                >
+                    {categories.map((cat, i) => (
+                        <div
+                            key={i}
+                            className={`flex-shrink-0 w-[130px] snap-start group cursor-pointer transition-all ease-out ${mobileScroll.isVisible
+                                    ? 'opacity-100 translate-x-0 scale-100'
+                                    : 'opacity-0 translate-x-6 scale-90'
+                                }`}
+                            style={{
+                                transitionDuration: '400ms',
+                                transitionDelay: `${i * 60}ms`,
+                            }}
+                        >
+                            <div className="bg-white dark:bg-sidebar-accent p-4 rounded-2xl shopee-shadow hover-lift border border-transparent hover:border-emerald-200 transition-all flex flex-col items-center text-center gap-3">
+                                <div className={`size-12 rounded-xl ${cat.color} flex items-center justify-center transition-transform group-hover:rotate-6 group-hover:scale-110`}>
+                                    {cat.icon}
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-xs tracking-tight leading-tight">{cat.name}</h3>
+                                    <p className="text-[9px] text-muted-foreground mt-0.5">{cat.count}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* DESKTOP: Grid layout */}
                 <StaggerReveal
                     variant="scaleUp"
                     staggerDelay={80}
                     duration={500}
-                    className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"
+                    className="hidden md:grid md:grid-cols-4 lg:grid-cols-6 gap-6"
                 >
                     {categories.map((cat, i) => (
                         <div key={i} className="group cursor-pointer">

@@ -147,4 +147,12 @@
     .gradient-healthy {
         background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
 }
